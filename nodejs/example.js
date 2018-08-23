@@ -1,7 +1,7 @@
 const { ShortCodeExpireError, OAuthClient } = require('./');
 
 const client = new OAuthClient({
-  clientId: 'a2c0f4df2b184b14196aa826548deec10e53f571f9f59f09',
+  clientId: '<Your OAuth token here!>',
   scopes: ['interactive:robot:self'],
 });
 
