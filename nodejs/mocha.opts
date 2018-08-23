@@ -1,0 +1,6 @@
+--compilers ts:ts-node/register
+--require source-map-support/register
+--require src/setup.test.ts
+--timeout 20000
+--recursive
+src/**/*.test.ts
