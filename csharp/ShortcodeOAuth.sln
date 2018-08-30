@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShortcodeOAuth", "ShortcodeOAuth\ShortcodeOAuth.csproj", "{5D44AFA7-0396-45BE-88A8-0698B52F9622}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{891FFEBF-0176-430A-9F36-E0D2B4B32B38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D44AFA7-0396-45BE-88A8-0698B52F9622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D44AFA7-0396-45BE-88A8-0698B52F9622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D44AFA7-0396-45BE-88A8-0698B52F9622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D44AFA7-0396-45BE-88A8-0698B52F9622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{891FFEBF-0176-430A-9F36-E0D2B4B32B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{891FFEBF-0176-430A-9F36-E0D2B4B32B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{891FFEBF-0176-430A-9F36-E0D2B4B32B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{891FFEBF-0176-430A-9F36-E0D2B4B32B38}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B089D64A-FC21-4F2A-8E69-C1899E075F2E}
+	EndGlobalSection
+EndGlobal
