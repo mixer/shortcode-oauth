@@ -4,7 +4,7 @@
 npm install --save @mixer/shortcode-oauth
 ```
 
-This is an example of Mixer shortcode OAuth in Node.js. An example can be found in `example.js` in this directory. For more information about OAuth in general, check out the [OAuth reference page](https://dev.mixer.com/reference/oauth/index.html) on the Mixer developer site.
+This is a client for Mixer shortcode OAuth in Node.js. An example can be found in `example.js` in this directory. For more information about OAuth in general, check out the [OAuth reference page](https://dev.mixer.com/reference/oauth/index.html) on the Mixer developer site.
 
 ```js
 const { ShortCodeExpireError, OAuthClient } = require('@mixer/shortcode-oauth');
