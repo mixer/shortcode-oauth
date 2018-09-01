@@ -7,7 +7,7 @@ if sys.version_info < (3, 5):
 
 setup(
     name='mixer_shortcode',
-    version='0.1.0',
+    version='1.0.0',
     description='Mixer OAuth shortcode client',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -23,6 +23,6 @@ setup(
     url='https://github.com/mixer/shortcode-oauth',
     license='MIT',
     packages=find_packages(exclude=['tests']),
-    install_requires=['aiohttp>=2.0.7'],
+    install_requires=['aiohttp>=3.4.1'],
     include_package_data=True,
 )
