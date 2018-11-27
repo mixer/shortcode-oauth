@@ -73,26 +73,37 @@ export class OAuthShortCode {
   /**
    * The OAuth shortcode to display to the user.
    */
-  public readonly code = this.shortcode.code;
+  public readonly code: string;
+
+  /**
+   * The shortcode handle for polling.
+   */
+  public readonly handle: string;
 
   /**
    * Return the number of seconds until the shortcode expires.
    */
-  public readonly expiresIn = this.shortcode.expires_in;
+  public readonly expiresIn: number;
 
   /**
    * Gets the time at which this shortcode expires.
    */
-  public readonly expiresAt = new Date(this.expiresIn * 1000 + Date.now());
+  public readonly expiresAt: Date;
 
-  private expired = delay(this.expiresIn * 1000);
+  private expired: Promise<void>;
 
   constructor(
     private readonly clientId: string,
     private readonly scopes: string[],
-    private readonly shortcode: IShortcodeCreateResponse,
     private readonly fetcher: IRequester,
-  ) {}
+    response: IShortcodeCreateResponse,
+  ) {
+    this.handle = response.handle;
+    this.expiresIn = response.expires_in;
+    this.code = response.code;
+    this.expired = delay(this.expiresIn * 1000);
+    this.expiresAt = new Date(this.expiresIn * 1000 + Date.now());
+  }
 
   /**
    * Returns whether this shortcode has expired.
@@ -101,19 +112,14 @@ export class OAuthShortCode {
     return Date.now() > this.expiresAt.getTime();
   }
 
+  /**
+   * Returns a promise that resolves once the user authorizes your app,
+   * or throws if the token expires or is denied.
+   */
   public async waitForAccept(): Promise<OAuthTokens> {
-    const res = await this.fetcher.json('get', `oauth/shortcode/check/${this.shortcode.handle}`);
-    switch (res.statusCode) {
-      case 200:
-        return this.getTokens(res.json);
-      case 204:
-        break;
-      case 403:
-        throw new ShortCodeAccessDeniedError();
-      case 404:
-        throw new ShortCodeExpireError();
-      default:
-        throw new UnexpectedHttpError(res);
+    const result = await this.poll();
+    if (result) {
+      return result;
     }
 
     await Promise.race([
@@ -124,6 +130,28 @@ export class OAuthShortCode {
     ]);
 
     return this.waitForAccept();
+  }
+
+  /**
+   * Polls the server to see if the shortcode has been authorized. Returns
+   * the set of access and refresh tokens if so, or undefined if it's not
+   * been authorized yet. Throws an appropriate error if those shortcode
+   * has expired or been denied.
+   */
+  public async poll(): Promise<OAuthTokens | void> {
+    const res = await this.fetcher.json('get', `oauth/shortcode/check/${this.handle}`);
+    switch (res.statusCode) {
+      case 200:
+        return this.getTokens(res.json);
+      case 204:
+        return undefined;
+      case 403:
+        throw new ShortCodeAccessDeniedError();
+      case 404:
+        throw new ShortCodeExpireError();
+      default:
+        throw new UnexpectedHttpError(res);
+    }
   }
 
   private async getTokens({ code }: { code: string }): Promise<OAuthTokens> {
@@ -210,12 +238,7 @@ export class OAuthClient {
       throw new UnexpectedHttpError(res);
     }
 
-    return new OAuthShortCode(
-      this.options.clientId,
-      this.options.scopes,
-      res.json,
-      this.fetcher,
-    );
+    return new OAuthShortCode(this.options.clientId, this.options.scopes, this.fetcher, res.json);
   }
 
   /**

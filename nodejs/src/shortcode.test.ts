@@ -70,7 +70,7 @@ describe('shortcode oauth', () => {
   describe('token refresh', () => {
     it('refreshes tokens successfully', async () => {
       requester.json
-        .withArgs('post', '/oauth/token', {
+        .withArgs('post', 'oauth/token', {
           grant_type: 'refresh_token',
           refresh_token: 'expired_refresh_token',
           client_id: 'clientId',
@@ -87,7 +87,7 @@ describe('shortcode oauth', () => {
 
   describe('granting', () => {
     const giveStatus = (statusCode: number) => {
-      return requester.json.withArgs('get', '/oauth/shortcode/check/sc_handle').resolves({
+      return requester.json.withArgs('get', 'oauth/shortcode/check/sc_handle').resolves({
         statusCode,
         json: { code: 'oauth_authorization_code' },
       });
@@ -95,7 +95,7 @@ describe('shortcode oauth', () => {
 
     beforeEach(() => {
       requester.json
-        .withArgs('post', '/oauth/token', {
+        .withArgs('post', 'oauth/token', {
           client_id: 'clientId',
           grant_type: 'authorization_code',
           code: 'oauth_authorization_code',
@@ -106,7 +106,7 @@ describe('shortcode oauth', () => {
         });
 
       requester.json
-        .withArgs('post', '/oauth/shortcode', {
+        .withArgs('post', 'oauth/shortcode', {
           client_id: 'clientId',
           client_secret: undefined,
           scope: scopes.join(' '),

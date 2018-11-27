@@ -50,7 +50,7 @@ export class NativeRequester implements IRequester {
    * @inheritDoc
    */
   public json(method: HttpMethod, path: string, body?: object): Promise<IHttpResponse> {
-    const request = this.url.protocol === 'http' ? http.request : https.request;
+    const request = this.url.protocol === 'http:' ? http.request : https.request;
     const options: http.RequestOptions = {
       method,
       hostname: this.url.hostname,
