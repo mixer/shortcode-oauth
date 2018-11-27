@@ -16,7 +16,7 @@ export type HttpMethod = 'get' | 'post' | 'put' | 'patch';
 /**
  * HttpResponse is returned from the IRequester.
  */
-export interface IHttpResponse extends http.ClientResponse {
+export interface IHttpResponse extends http.IncomingMessage {
   text: string;
   statusCode: number;
   json?: any;
