@@ -17,6 +17,7 @@ describe('shortcode oauth', () => {
     oauth = new OAuthClient(
       {
         clientId: 'clientId',
+        clientSecret: 'clientSecret',
         scopes,
       },
       requester,
@@ -74,6 +75,7 @@ describe('shortcode oauth', () => {
           grant_type: 'refresh_token',
           refresh_token: 'expired_refresh_token',
           client_id: 'clientId',
+          client_secret: 'clientSecret',
         })
         .resolves({
           json: mockTokenResponse,
@@ -97,6 +99,7 @@ describe('shortcode oauth', () => {
       requester.json
         .withArgs('post', 'oauth/token', {
           client_id: 'clientId',
+          client_secret: 'clientSecret',
           grant_type: 'authorization_code',
           code: 'oauth_authorization_code',
         })
@@ -108,7 +111,7 @@ describe('shortcode oauth', () => {
       requester.json
         .withArgs('post', 'oauth/shortcode', {
           client_id: 'clientId',
-          client_secret: undefined,
+          client_secret: 'clientSecret',
           scope: scopes.join(' '),
         })
         .resolves({

@@ -97,6 +97,7 @@ export class OAuthShortCode {
     private readonly scopes: string[],
     private readonly fetcher: IRequester,
     response: IShortcodeCreateResponse,
+    private readonly clientSecret?: string,
   ) {
     this.handle = response.handle;
     this.expiresIn = response.expires_in;
@@ -157,6 +158,7 @@ export class OAuthShortCode {
   private async getTokens({ code }: { code: string }): Promise<OAuthTokens> {
     const res = await this.fetcher.json('post', 'oauth/token', {
       client_id: this.clientId,
+      client_secret: this.clientSecret,
       grant_type: 'authorization_code',
       code,
     });
@@ -238,7 +240,7 @@ export class OAuthClient {
       throw new UnexpectedHttpError(res);
     }
 
-    return new OAuthShortCode(this.options.clientId, this.options.scopes, this.fetcher, res.json);
+    return new OAuthShortCode(this.options.clientId, this.options.scopes, this.fetcher, res.json, this.options.clientSecret);
   }
 
   /**
@@ -249,6 +251,7 @@ export class OAuthClient {
       grant_type: 'refresh_token',
       refresh_token: tokens.data.refreshToken,
       client_id: this.options.clientId,
+      client_secret: this.options.clientSecret,
     });
 
     if (res.statusCode >= 300) {
